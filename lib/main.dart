@@ -27,6 +27,7 @@ class FlutterBlueApp extends StatelessWidget {
           initialData: BluetoothState.unknown,
           builder: (c, snapshot) {
             final state = snapshot.data;
+            print('Please select your devise: $state');
             if (state == BluetoothState.on) {
               return const FindDevicesScreen();
             }
@@ -34,8 +35,6 @@ class FlutterBlueApp extends StatelessWidget {
           }),
     );
   }
-
-
 }
 
 class BluetoothOffScreen extends StatelessWidget {
@@ -82,7 +81,7 @@ class FindDevicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       key: key,
+      key: key,
       appBar: AppBar(
         title: const Text('Find Devices'),
         actions: [
@@ -111,12 +110,13 @@ class FindDevicesScreen extends StatelessWidget {
                 builder: (c, snapshot) => Column(
                   children: snapshot.data!
                       .map((d) => ListTile(
-                            title: Text(' Yeskat ${d.name}'),
-                            subtitle: Text('Yeskat ${d.id.toString()}'),
+                            title: Text('Your device  ${d.name}'),
+                            subtitle: Text('Your device ${d.id.toString()}'),
                             trailing: StreamBuilder<BluetoothDeviceState>(
                               stream: d.state,
                               initialData: BluetoothDeviceState.disconnected,
                               builder: (c, snapshot) {
+                                print('Controller Stream ${d.state}');
                                 if (snapshot.data ==
                                     BluetoothDeviceState.connected) {
                                   return ElevatedButton(
@@ -204,8 +204,11 @@ class DeviceScreen extends StatelessWidget {
                     characteristic: c,
                     onReadPressed: () => c.read(),
                     onWritePressed: () async {
-                      await c.write(_getRandomBytes(), withoutResponse: true);
-                      await c.read();
+                      print(
+                          'I am checking this ${s.characteristics.toString()}');
+                      await c.write([0x12, 0x34]);
+                      List<int> value = await c.read();
+                      print('9999999999999999999999999999 ${value.toString()}');
                     },
                     onNotificationPressed: () async {
                       await c.setNotifyValue(!c.isNotifying);
@@ -335,6 +338,7 @@ class DeviceScreen extends StatelessWidget {
               stream: device.services,
               initialData: const [],
               builder: (c, snapshot) {
+                print('What is this ${device.services.toString()}');
                 return Column(
                   children: _buildServiceTiles(snapshot.data!),
                 );

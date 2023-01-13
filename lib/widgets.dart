@@ -14,6 +14,8 @@ class ScanResultTile extends StatelessWidget {
   final VoidCallback? onTap;
 
   Widget _buildTitle(BuildContext context) {
+    print('this is device name ${result.device.name.toString()}');
+    print('this is device ID ${result.device.id.toString()}');
     if (result.device.name.isNotEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -58,12 +60,15 @@ class ScanResultTile extends StatelessWidget {
   }
 
   String getNiceHexArray(List<int> bytes) {
+    print(
+        'what is this [${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join(', ')}]');
     return '[${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join(', ')}]'
         .toUpperCase();
   }
 
   String getNiceManufacturerData(Map<int, List<int>> data) {
     if (data.isEmpty) {
+      print('This is Manufacture data $data');
       return 'N/A';
     }
     List<String> res = [];
@@ -82,11 +87,13 @@ class ScanResultTile extends StatelessWidget {
     data.forEach((id, bytes) {
       res.add('${id.toUpperCase()}: ${getNiceHexArray(bytes)}');
     });
-    return res.join(', ');
+    return res.join(', ').toString();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('i am cheking 55555555555 $result.advertisementData.localName');
+    print('i am cheking 66666666666 $result.advertisementData.serviceData');
     return ExpansionTile(
       title: _buildTitle(context),
       leading: Text(result.rssi.toString()),
@@ -128,7 +135,8 @@ class ServiceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('0x${service.uuid.toString()}');
+    print('show me service list {$service}');
+    //print('show me list $characteristicTiles');
     if (characteristicTiles.isNotEmpty) {
       return ExpansionTile(
         title: Column(
@@ -187,6 +195,10 @@ class CharacteristicTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('show me characteristic value list $characteristic');
+    print(onReadPressed);
+    print(onNotificationPressed);
+    print(onWritePressed);
     return StreamBuilder<List<int>>(
       stream: characteristic.value,
       initialData: characteristic.lastValue,
@@ -271,15 +283,16 @@ class DescriptorTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-          print('I AM TESTING ${descriptor.value}');
-          print('I AM CHECKING ${ descriptor.lastValue}');
+    print(' Hi I am here ${descriptor.uuid.toString().toUpperCase()}');
+    print('I AM TESTING ${descriptor.value}');
+    print('I AM CHECKING ${descriptor.lastValue}');
     return ListTile(
       title: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text('Descriptor'),
-          Text('0x${descriptor.uuid.toString().toUpperCase().substring(4, 8)}',
+          Text('0x${descriptor.uuid.toString().toUpperCase()}',
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
