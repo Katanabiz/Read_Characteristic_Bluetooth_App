@@ -196,9 +196,7 @@ class CharacteristicTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('show me characteristic value list $characteristic');
-    print(onReadPressed);
-    print(onNotificationPressed);
-    print(onWritePressed);
+   
     return StreamBuilder<List<int>>(
       stream: characteristic.value,
       initialData: characteristic.lastValue,
@@ -238,19 +236,8 @@ class CharacteristicTile extends StatelessWidget {
                 ),
                 onPressed: onReadPressed,
               ),
-              IconButton(
-                icon: Icon(Icons.file_upload,
-                    color: Theme.of(context).iconTheme.color?.withOpacity(0.5)),
-                onPressed: onWritePressed,
-              ),
-              IconButton(
-                icon: Icon(
-                    characteristic.isNotifying
-                        ? Icons.sync_disabled
-                        : Icons.sync,
-                    color: Theme.of(context).iconTheme.color?.withOpacity(0.5)),
-                onPressed: onNotificationPressed,
-              )
+          
+             
             ],
           ),
           children: descriptorTiles,
@@ -314,13 +301,7 @@ class DescriptorTile extends StatelessWidget {
             ),
             onPressed: onReadPressed,
           ),
-          IconButton(
-            icon: Icon(
-              Icons.file_upload,
-              color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
-            ),
-            onPressed: onWritePressed,
-          )
+        
         ],
       ),
     );

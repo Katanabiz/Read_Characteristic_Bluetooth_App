@@ -42,6 +42,8 @@ class BluetoothOffScreen extends StatelessWidget {
 
   final BluetoothState? state;
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,24 +204,17 @@ class DeviceScreen extends StatelessWidget {
                 .map(
                   (c) => CharacteristicTile(
                     characteristic: c,
-                    onReadPressed: () => c.read(),
-                    onWritePressed: () async {
-                      print(
-                          'I am checking this ${s.characteristics.toString()}');
-                      await c.write([0x12, 0x34]);
+                    onReadPressed: () async {
                       List<int> value = await c.read();
-                      print('9999999999999999999999999999 ${value.toString()}');
+                      print('9999999999999 ${String.fromCharCodes(value)}');
                     },
-                    onNotificationPressed: () async {
-                      await c.setNotifyValue(!c.isNotifying);
-                      await c.read();
-                    },
+                 
                     descriptorTiles: c.descriptors
                         .map(
                           (d) => DescriptorTile(
                             descriptor: d,
                             onReadPressed: () => d.read(),
-                            onWritePressed: () => d.write(_getRandomBytes()),
+                      
                           ),
                         )
                         .toList(),
