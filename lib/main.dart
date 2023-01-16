@@ -13,6 +13,16 @@ import 'widgets.dart';
 
 void main() {
   runApp(const FlutterBlueApp());
+  List<int> rawData1 = [80,84,51,48,95,67,56,52,65];
+  List<int> rawData2 = [16,0,60,0,0,0,144,1];
+   List<int> rawData3 = [36,82,69,86,38,78,61,49,52,56,38,69,61,80,69,82];
+  // List<int> rawData2 = [];
+  // List<int> rawData2 = [];
+  // List<int> rawData2 = [];
+  print('This is values of  ${String.fromCharCodes(rawData1)}');
+  print('This is values of  ${String.fromCharCodes(rawData2)}');
+  print('This is values of  ${String.fromCharCodes(rawData3)}');
+
 }
 
 class FlutterBlueApp extends StatelessWidget {
@@ -41,8 +51,6 @@ class BluetoothOffScreen extends StatelessWidget {
   const BluetoothOffScreen({Key? key, this.state}) : super(key: key);
 
   final BluetoothState? state;
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +137,8 @@ class FindDevicesScreen extends StatelessWidget {
                                                 DeviceScreen(device: d))),
                                   );
                                 }
+                              
+                                print('333333333333333333333333333333333333 ${snapshot.data.toString()}');
                                 return Text(snapshot.data.toString());
                               },
                             ),
@@ -317,18 +327,7 @@ class DeviceScreen extends StatelessWidget {
                 ),
               ),
             ),
-            StreamBuilder<int>(
-              stream: device.mtu,
-              initialData: 0,
-              builder: (c, snapshot) => ListTile(
-                title: const Text('MTU Size'),
-                subtitle: Text('${snapshot.data} bytes'),
-                trailing: IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () => device.requestMtu(223),
-                ),
-              ),
-            ),
+         
             StreamBuilder<List<BluetoothService>>(
               stream: device.services,
               initialData: const [],

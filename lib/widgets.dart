@@ -14,26 +14,20 @@ class ScanResultTile extends StatelessWidget {
   final VoidCallback? onTap;
 
   Widget _buildTitle(BuildContext context) {
-    print('this is device name ${result.device.name.toString()}');
-    print('this is device ID ${result.device.id.toString()}');
-    if (result.device.name.isNotEmpty) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            result.device.name.toString(),
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            result.device.id.toString(),
-            style: Theme.of(context).textTheme.caption,
-          )
-        ],
-      );
-    } else {
-      return Text(result.device.id.toString());
-    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          result.device.name.toString(),
+          overflow: TextOverflow.ellipsis,
+        ),
+        Text(
+          result.device.id.toString(),
+          style: Theme.of(context).textTheme.caption,
+        )
+      ],
+    );
   }
 
   Widget _buildAdvRow(BuildContext context, String title, String value) {
@@ -69,6 +63,7 @@ class ScanResultTile extends StatelessWidget {
   String getNiceManufacturerData(Map<int, List<int>> data) {
     if (data.isEmpty) {
       print('This is Manufacture data $data');
+   
       return 'N/A';
     }
     List<String> res = [];
@@ -89,39 +84,50 @@ class ScanResultTile extends StatelessWidget {
     });
     return res.join(', ').toString();
   }
+  
 
   @override
   Widget build(BuildContext context) {
     print('i am cheking 55555555555 $result.advertisementData.localName');
     print('i am cheking 66666666666 $result.advertisementData.serviceData');
-    return ExpansionTile(
-      title: _buildTitle(context),
-      leading: Text(result.rssi.toString()),
-      trailing: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.black,
-        ),
-        onPressed: (result.advertisementData.connectable) ? onTap : null,
-        child: const Text('CONNECT'),
-      ),
-      children: <Widget>[
-        _buildAdvRow(
-            context, 'Complete Local Name', result.advertisementData.localName),
-        _buildAdvRow(context, 'Tx Power Level',
-            '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
-        _buildAdvRow(context, 'Manufacturer Data',
-            getNiceManufacturerData(result.advertisementData.manufacturerData)),
-        _buildAdvRow(
-            context,
-            'Service UUIDs',
-            (result.advertisementData.serviceUuids.isNotEmpty)
-                ? result.advertisementData.serviceUuids.join(', ').toUpperCase()
-                : 'N/A'),
-        _buildAdvRow(context, 'Service Data',
-            getNiceServiceData(result.advertisementData.serviceData)),
-      ],
-    );
+    print('i am cheking 7777777777 $result.rssi.toString()');
+    if (result.device.name.isNotEmpty) {
+      return ExpansionTile(
+        // Received Signal Strength Indicator   relative quality level
+        title: _buildTitle(context),
+        // trailing: ElevatedButton(
+        //   style: ElevatedButton.styleFrom(
+        //     foregroundColor: Colors.white,
+        //     backgroundColor: Colors.black,
+        //   ),
+        //   onPressed: (result.advertisementData.connectable) ? onTap : null,
+        //   child: const Text('CONNECT'),
+        // ),
+        children: <Widget>[
+          _buildAdvRow(context, 'Complete Local Name',
+              result.advertisementData.localName),
+          _buildAdvRow(context, 'Tx Power Level',
+              '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
+          _buildAdvRow(
+              context,
+              'Manufacturer Data',
+              getNiceManufacturerData(
+                  result.advertisementData.manufacturerData)),
+          _buildAdvRow(
+              context,
+              'Service UUIDs',
+              (result.advertisementData.serviceUuids.isNotEmpty)
+                  ? result.advertisementData.serviceUuids
+                      .join(', ')
+                      .toUpperCase()
+                  : 'N/A'),
+          _buildAdvRow(context, 'Service Data',
+              getNiceServiceData(result.advertisementData.serviceData)),
+        ],
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 }
 
@@ -196,7 +202,7 @@ class CharacteristicTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('show me characteristic value list $characteristic');
-   
+
     return StreamBuilder<List<int>>(
       stream: characteristic.value,
       initialData: characteristic.lastValue,
@@ -236,8 +242,6 @@ class CharacteristicTile extends StatelessWidget {
                 ),
                 onPressed: onReadPressed,
               ),
-          
-             
             ],
           ),
           children: descriptorTiles,
@@ -301,7 +305,6 @@ class DescriptorTile extends StatelessWidget {
             ),
             onPressed: onReadPressed,
           ),
-        
         ],
       ),
     );
