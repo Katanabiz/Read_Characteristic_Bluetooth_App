@@ -13,16 +13,32 @@ import 'widgets.dart';
 
 void main() {
   runApp(const FlutterBlueApp());
-  List<int> rawData1 = [80,84,51,48,95,67,56,52,65];
-  List<int> rawData2 = [16,0,60,0,0,0,144,1];
-   List<int> rawData3 = [36,82,69,86,38,78,61,49,52,56,38,69,61,80,69,82];
+  List<int> rawData1 = [80, 84, 51, 48, 95, 67, 56, 52, 65];
+  List<int> rawData2 = [16, 0, 60, 0, 0, 0, 144, 1];
+  List<int> rawData3 = [
+    36,
+    82,
+    69,
+    86,
+    38,
+    78,
+    61,
+    49,
+    52,
+    56,
+    38,
+    69,
+    61,
+    80,
+    69,
+    82
+  ];
   // List<int> rawData2 = [];
   // List<int> rawData2 = [];
   // List<int> rawData2 = [];
   print('This is values of  ${String.fromCharCodes(rawData1)}');
   print('This is values of  ${String.fromCharCodes(rawData2)}');
   print('This is values of  ${String.fromCharCodes(rawData3)}');
-
 }
 
 class FlutterBlueApp extends StatelessWidget {
@@ -238,6 +254,7 @@ class DeviceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('999999999999999 $device.connect()');
     return Scaffold(
       appBar: AppBar(
         title: Text(device.name.toString()),
@@ -282,26 +299,26 @@ class DeviceScreen extends StatelessWidget {
               stream: device.state,
               initialData: BluetoothDeviceState.connecting,
               builder: (c, snapshot) => ListTile(
-                leading: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    snapshot.data == BluetoothDeviceState.connected
-                        ? const Icon(Icons.bluetooth_connected)
-                        : const Icon(Icons.bluetooth_disabled),
-                    snapshot.data == BluetoothDeviceState.connected
-                        ? StreamBuilder<int>(
-                            stream: rssiStream(),
-                            builder: (context, snapshot) {
-                              return Text(
-                                  snapshot.hasData ? '${snapshot.data}dBm' : '',
-                                  style: Theme.of(context).textTheme.caption);
-                            })
-                        : Text('', style: Theme.of(context).textTheme.caption),
-                  ],
-                ),
+                // leading: Column(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     snapshot.data == BluetoothDeviceState.connected
+                //         ? const Icon(Icons.bluetooth_connected)
+                //         : const Icon(Icons.bluetooth_disabled),
+                //     snapshot.data == BluetoothDeviceState.connected
+                //         ? StreamBuilder<int>(
+                //             stream: rssiStream(),
+                //             builder: (context, snapshot) {
+                //               return Text(
+                //                   snapshot.hasData ? '${snapshot.data}dBm' : '',
+                //                   style: Theme.of(context).textTheme.caption);
+                //             })
+                //         : Text('', style: Theme.of(context).textTheme.caption),
+                //   ],
+                // ),
                 title: Text(
                     'Device is ${snapshot.data.toString().split('.')[1]}.'),
-                subtitle: Text('${device.id}'),
+                subtitle: Text(device.name),
                 trailing: StreamBuilder<bool>(
                   stream: device.isDiscoveringServices,
                   initialData: false,

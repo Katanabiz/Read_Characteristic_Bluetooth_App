@@ -95,35 +95,35 @@ class ScanResultTile extends StatelessWidget {
       return ExpansionTile(
         // Received Signal Strength Indicator   relative quality level
         title: _buildTitle(context),
-        // trailing: ElevatedButton(
-        //   style: ElevatedButton.styleFrom(
-        //     foregroundColor: Colors.white,
-        //     backgroundColor: Colors.black,
-        //   ),
-        //   onPressed: (result.advertisementData.connectable) ? onTap : null,
-        //   child: const Text('CONNECT'),
-        // ),
-        children: <Widget>[
-          _buildAdvRow(context, 'Complete Local Name',
-              result.advertisementData.localName),
-          _buildAdvRow(context, 'Tx Power Level',
-              '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
-          _buildAdvRow(
-              context,
-              'Manufacturer Data',
-              getNiceManufacturerData(
-                  result.advertisementData.manufacturerData)),
-          _buildAdvRow(
-              context,
-              'Service UUIDs',
-              (result.advertisementData.serviceUuids.isNotEmpty)
-                  ? result.advertisementData.serviceUuids
-                      .join(', ')
-                      .toUpperCase()
-                  : 'N/A'),
-          _buildAdvRow(context, 'Service Data',
-              getNiceServiceData(result.advertisementData.serviceData)),
-        ],
+        trailing: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.black,
+          ),
+          onPressed: (result.advertisementData.connectable) ? onTap : null,
+          child: const Text('CONNECT'),
+        ),
+        // children: <Widget>[
+        //   _buildAdvRow(context, 'Complete Local Name',
+        //       result.advertisementData.localName),
+        //   _buildAdvRow(context, 'Tx Power Level',
+        //       '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
+        //   _buildAdvRow(
+        //       context,
+        //       'Manufacturer Data',
+        //       getNiceManufacturerData(
+        //           result.advertisementData.manufacturerData)),
+        //   _buildAdvRow(
+        //       context,
+        //       'Service UUIDs',
+        //       (result.advertisementData.serviceUuids.isNotEmpty)
+        //           ? result.advertisementData.serviceUuids
+        //               .join(', ')
+        //               .toUpperCase()
+        //           : 'N/A'),
+        //   _buildAdvRow(context, 'Service Data',
+        //       getNiceServiceData(result.advertisementData.serviceData)),
+        // ],
       );
     } else {
       return const SizedBox.shrink();
@@ -141,6 +141,7 @@ class ServiceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     print('show me service list {$service}');
     //print('show me list $characteristicTiles');
     if (characteristicTiles.isNotEmpty) {
