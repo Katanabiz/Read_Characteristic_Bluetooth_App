@@ -11,7 +11,7 @@ class BluetoothOffView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -19,20 +19,26 @@ class BluetoothOffView extends StatelessWidget {
             const Icon(
               Icons.bluetooth_disabled,
               size: 200.0,
-              color: Colors.white54,
+              color: Colors.lightBlue,
             ),
             Text(
               'Bluetooth Adapter is ${state != null ? state.toString().substring(15) : 'not available'}.',
               style: Theme.of(context)
                   .primaryTextTheme
                   .subtitle2
-                  ?.copyWith(color: Colors.white),
+                  ?.copyWith(color: Colors.black),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.black,
+              ),
               onPressed: Platform.isAndroid
                   ? () => FlutterBluePlus.instance.turnOn()
                   : null,
-              child: const Text('TURN ON'),
+              child: const Text(
+                'TURN ON',
+              ),
             ),
           ],
         ),

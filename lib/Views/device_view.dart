@@ -65,6 +65,8 @@ class DeviceView extends StatelessWidget {
             stream: device.state,
             initialData: BluetoothDeviceState.connecting,
             builder: (c, snapshot) {
+              print(
+                  'Device is555555555555555555555555 ${snapshot.data.toString().split('.')[1]}.');
               VoidCallback? onPressed;
               String text;
               switch (snapshot.data) {

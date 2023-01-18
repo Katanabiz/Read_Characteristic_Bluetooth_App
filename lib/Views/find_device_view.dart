@@ -16,15 +16,12 @@ class FindDevicesView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Find Devices'),
         actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.black,
-            ),
+          TextButton(
             onPressed: Platform.isAndroid
                 ? () => FlutterBluePlus.instance.turnOff()
                 : null,
-            child: const Text('TURN OFF'),
+            child:
+                const Text('TURN OFF', style: TextStyle(color: Colors.black)),
           ),
         ],
       ),
@@ -41,13 +38,12 @@ class FindDevicesView extends StatelessWidget {
                 builder: (c, snapshot) => Column(
                   children: snapshot.data!
                       .map((d) => ListTile(
-                            title: Text('Your device  ${d.name}'),
-                            subtitle: Text('Your device ${d.id.toString()}'),
+                            title: Text(d.name),
+                            subtitle: Text(d.id.toString()),
                             trailing: StreamBuilder<BluetoothDeviceState>(
                               stream: d.state,
                               initialData: BluetoothDeviceState.disconnected,
                               builder: (c, snapshot) {
-                                print('Controller Stream ${d.state}');
                                 if (snapshot.data ==
                                     BluetoothDeviceState.connected) {
                                   return ElevatedButton(
@@ -58,8 +54,9 @@ class FindDevicesView extends StatelessWidget {
                                                 DeviceView(device: d))),
                                   );
                                 }
-                              
-                                print('333333333333333333333333333333333333 ${snapshot.data.toString()}');
+
+                                print(
+                                    '333333333333333333333333333333333333 ${snapshot.data.toString()}');
                                 return Text(snapshot.data.toString());
                               },
                             ),

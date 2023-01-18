@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
@@ -60,7 +58,7 @@ class ScanResultTileWidget extends StatelessWidget {
   String getNiceManufacturerData(Map<int, List<int>> data) {
     if (data.isEmpty) {
       print('This is Manufacture data $data');
-   
+
       return 'N/A';
     }
     List<String> res = [];
@@ -81,22 +79,16 @@ class ScanResultTileWidget extends StatelessWidget {
     });
     return res.join(', ').toString();
   }
-  
 
   @override
   Widget build(BuildContext context) {
-    print('i am cheking 55555555555 $result.advertisementData.localName');
-    print('i am cheking 66666666666 $result.advertisementData.serviceData');
-    print('i am cheking 7777777777 $result.rssi.toString()');
     if (result.device.name.isNotEmpty) {
       return ExpansionTile(
         // Received Signal Strength Indicator   relative quality level
         title: _buildTitle(context),
         trailing: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.black,
-          ),
+              foregroundColor: Colors.white, backgroundColor: Colors.lightBlue),
           onPressed: (result.advertisementData.connectable) ? onTap : null,
           child: const Text('CONNECT'),
         ),
