@@ -123,7 +123,7 @@ class DeviceView extends StatelessWidget {
                 title: Text(
                     'Device is ${snapshot.data.toString().split('.')[1]}.'),
                 subtitle: Text(device.name),
-                trailing: StreamBuilder<bool>(
+                trailing: snapshot.data == BluetoothDeviceState.connected ? StreamBuilder<bool>(
                   stream: device.isDiscoveringServices,
                   initialData: false,
                   builder: (c, snapshot) => IndexedStack(
@@ -145,7 +145,7 @@ class DeviceView extends StatelessWidget {
                       )
                     ],
                   ),
-                ),
+                ):const SizedBox.shrink()
               ),
             ),
          
