@@ -1,8 +1,7 @@
+import 'dummy_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-
-import 'dummy_data.dart';
 
 class DeviceInfoView extends StatefulWidget {
   DeviceInfoView({Key? key, required this.title}) : super(key: key);
@@ -60,17 +59,18 @@ class DeviceInfoViewState extends State<DeviceInfoView> {
             children: <Widget>[
               Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    const SizedBox(height: 10),
                     Text(device.name),
                     Text(device.id.toString()),
                   ],
                 ),
               ),
-              TextButton(
-                child: const Text(
-                  'Connect',
-                  style: TextStyle(color: Colors.black),
-                ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.lightBlue),
                 onPressed: () async {
                   widget.flutterBlue.stopScan();
                   try {
@@ -86,6 +86,7 @@ class DeviceInfoViewState extends State<DeviceInfoView> {
                     _connectedDevice = device;
                   });
                 },
+                child: const Text('CONNECT'),
               ),
             ],
           ),
