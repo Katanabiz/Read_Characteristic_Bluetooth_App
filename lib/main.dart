@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'Views/flutter_blu_view.dart';
+import 'device_info_view.dart';
 
+void main() => runApp(const MyApp());
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-void main() {
-  runApp(const FlutterBlueApp());
-  List<int> rawData1 = [80, 84, 51, 48, 95, 67, 56, 52, 65];
-  print('This is values of  ${String.fromCharCodes(rawData1)}');
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.lightBlue,
+        ),
+        home: DeviceInfoView(title: 'CTE-LOG'),
+      );
 }
-
-
-
-
-
-
-
