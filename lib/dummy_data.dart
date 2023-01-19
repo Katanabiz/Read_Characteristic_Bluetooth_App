@@ -1,7 +1,5 @@
 class DummyData {
- 
-
-   static String lookup1(String uuid) {
+  static String lookup1(String uuid) {
     return lookup2(uuid, "unknown attributes");
   }
 
@@ -919,6 +917,4 @@ class DummyData {
 
     return attributes;
   }
-
- 
 }

@@ -102,6 +102,13 @@ class DeviceInfoViewState extends State<DeviceInfoView> {
     );
   }
 
+  void readBtn(chr) async {
+    await chr.value.listen((value) {
+      widget.readValues[chr.uuid] = value;
+    });
+    await chr.read();
+  }
+
   List<ButtonTheme> _buildReadButton(BluetoothCharacteristic characteristic) {
     List<ButtonTheme> buttons = <ButtonTheme>[];
     if (characteristic.properties.read) {
@@ -112,20 +119,9 @@ class DeviceInfoViewState extends State<DeviceInfoView> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
             child: TextButton(
-              child: const Text('READ',
-                  style: TextStyle(color: Colors.lightGreen)),
-              onPressed: () async {
-                print(
-                    '8888888888888888888888888 ${widget.readValues[characteristic.uuid].toString()} no value');
-                var sub = characteristic.value.listen((value) {
-                  setState(() {
-                    widget.readValues[characteristic.uuid] = value;
-                  });
-                });
-                await characteristic.read();
-                sub.cancel();
-              },
-            ),
+                child: const Text('READ',
+                    style: TextStyle(color: Colors.lightGreen)),
+                onPressed: () => readBtn(characteristic)),
           ),
         ),
       );
@@ -135,6 +131,18 @@ class DeviceInfoViewState extends State<DeviceInfoView> {
 
   ListView _buildConnectDeviceView() {
     List<Widget> containers = <Widget>[];
+    var sendingData = [];
+    Map<Guid, List<int>> wdData = <Guid, List<int>>{};
+
+    ReadValue(characteristic) async {
+      if (characteristic != null) {
+        await characteristic.value.listen((value) {
+          wdData[characteristic.uuid] = value;
+        });
+        await characteristic.read();
+      }
+      return characteristic;
+    }
 
     for (BluetoothService service in _services) {
       List<Widget> characteristicsWidget = <Widget>[];
@@ -169,8 +177,23 @@ class DeviceInfoViewState extends State<DeviceInfoView> {
             ),
           ),
         );
+
+        //ReadValue(characteristic);
+        readBtn(characteristic);
+        {
+          var jsondata = {
+            "serviceName": characteristic.uuid.toString(),
+            "serviceValue": widget.readValues[characteristic.uuid].toString(),
+            "name": DummyData.lookup1(characteristic.uuid.toString()),
+            "value": widget.readValues[characteristic.uuid] != null
+                ? String.fromCharCodes(widget.readValues[characteristic.uuid]!)
+                : ""
+          };
+
+          sendingData.add(jsondata);
+        }
       }
-      print('6666666666666666666666 ${service.uuid.toString()}');
+      print('6666666666666666666666 ${sendingData}');
       containers.add(
         ExpansionTile(
             title: Text(DummyData.lookup1(service.uuid.toString())),
